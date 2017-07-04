@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -26,6 +27,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -73,6 +75,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private View mProgressView;
     private View mLoginFormView;
     private String get;
+    private Boolean format=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +101,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             @Override
             public void onClick(View view) {
                 attemptLogin();
-                connect();
+                if( format==true)
+                    connect();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(imm.isActive()) {
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
             }
         });
 
@@ -163,7 +171,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
-
+        format=true;
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
@@ -176,6 +184,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
+            format=false;
         }
 
         // Check for a valid email address.
@@ -183,10 +192,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
+            format=false;
         } else if (!isEmailValid(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
+            format=false;
         }
 
         if (cancel) {
@@ -320,37 +331,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
+           return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
         }
 
         @Override
@@ -365,20 +352,28 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         HttpTask task = new HttpTask(new HttpCallBack() {
             @Override
             public void success(List result) {
-//                try {
-//                    JSONObject msg = new JSONObject((String) result.get(0));
-//                    if (msg.getString("result").equals("ok")) {
-//
-//                    }
-//                    else if(msg.getString("result").equals("no")){
-//
-//                    }
-//                    else if(msg.getString("result").equals("no2")){
-//
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                if(result.size()==0){
+                    Toast.makeText(LoginActivity.this,"请检查您的网络",Toast.LENGTH_SHORT).show();
+                }else{
+                    try {
+                        JSONObject msg = new JSONObject((String) result.get(0));
+                        if (msg.getString("msg").equals("成功")) {
+                            Intent intent = new Intent();
+                            intent.setClass(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                        else if(msg.getString("msg").equals("失败")){
+                            mPasswordView.setError(getString(R.string.error_incorrect_password));
+                            mPasswordView.requestFocus();
+                        }
+                        else{
+                            Toast.makeText(LoginActivity.this,"请检查您的网络",Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
             @Override
