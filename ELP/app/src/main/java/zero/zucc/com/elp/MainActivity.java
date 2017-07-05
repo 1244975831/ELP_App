@@ -32,12 +32,13 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     ListView recommend;
     SearchView searchView;
+    Toolbar toolbar;
     ArrayList<Course> listdata = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
 
@@ -60,8 +61,8 @@ public class MainActivity extends AppCompatActivity
 //                transaction.replace(android.R.id.content,course_lessonFragment);
 //                transaction.addToBackStack(null);
 //                transaction.commit();
-//                recommend.setVisibility(View.GONE);
-//                toolbar.setVisibility(View.GONE);
+                recommend.setVisibility(View.GONE);
+                toolbar.setVisibility(View.GONE);
                 Course_ListFragment course_listFragment = new Course_ListFragment();
                 transaction.replace(android.R.id.content,course_listFragment);
                 transaction.addToBackStack(null);
@@ -143,5 +144,9 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    public  void back (){
+        recommend.setVisibility(View.VISIBLE);
+        toolbar.setVisibility(View.VISIBLE);
     }
 }

@@ -15,6 +15,9 @@ import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.github.barteksc.pdfviewer.PDFView;
+
+import java.io.File;
 import java.util.ArrayList;
 
 import zero.zucc.com.elp.Adapter.DiscussAdapter;
@@ -34,12 +37,20 @@ public class Course_LessonFragment extends Fragment {
     private Handler mHandler = new Handler();
     private boolean bVideoIsBeingTouched = false;
     private ListView discuss;
+    private PDFView pdfView;
     private ArrayList<Discuss> listdata = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_course, container, false);
         discuss = (ListView)v.findViewById(R.id.discuss);
         introView = (VideoView)v.findViewById(R.id.Video);
+        pdfView = (PDFView)v.findViewById(R.id.Pdf);
+        pdfView.fromAsset("法律与案例期末论文.pdf")   //PDF文件是放在assets文件夹里面的   fromAsset()方法已经写好了从assets问价夹读取文件的方法了  所以不用考虑去其他问题
+                .pages(0, 2, 1, 3, 3, 3)
+                .defaultPage(1)
+                .showMinimap(false)
+                .enableSwipe(true)
+                .load();
         init();
         Uri uri = Uri.parse("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4");
         introView.setVideoURI(uri);
@@ -71,6 +82,7 @@ public class Course_LessonFragment extends Fragment {
 //                return false;
 //            }
 //        });
+
 
         return v;
 

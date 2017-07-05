@@ -19,6 +19,7 @@
             android:layout_height="100dp"
             android:layout_weight="2"
             android:layout_margin="16dp"
+            android:adjustViewBounds="true"
             android:src="@drawable/noimage"/>
         <LinearLayout
             android:layout_width="0dp"
