@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,18 +24,21 @@ import java.util.List;
 
 import zero.zucc.com.elp.Adapter.RecommendAdapter;
 import zero.zucc.com.elp.Fragment.Course_LessonFragment;
+import zero.zucc.com.elp.Fragment.Course_ListFragment;
 import zero.zucc.com.elp.Item.Course;
 import zero.zucc.com.elp.Item.User;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     ListView recommend;
+    SearchView searchView;
     ArrayList<Course> listdata = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
 
         Course c = new Course() ;
@@ -50,10 +54,16 @@ public class MainActivity extends AppCompatActivity
         recommend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                FragmentManager fragmentManager =getFragmentManager();
+                FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                Course_LessonFragment course_lessonFragment = new Course_LessonFragment();
-                transaction.replace(android.R.id.content,course_lessonFragment);
+//                Course_LessonFragment course_lessonFragment = new Course_LessonFragment();
+//                transaction.replace(android.R.id.content,course_lessonFragment);
+//                transaction.addToBackStack(null);
+//                transaction.commit();
+//                recommend.setVisibility(View.GONE);
+//                toolbar.setVisibility(View.GONE);
+                Course_ListFragment course_listFragment = new Course_ListFragment();
+                transaction.replace(android.R.id.content,course_listFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }

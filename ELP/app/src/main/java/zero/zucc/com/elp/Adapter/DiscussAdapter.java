@@ -10,19 +10,19 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import zero.zucc.com.elp.Item.Course;
+import zero.zucc.com.elp.Item.Discuss;
 import zero.zucc.com.elp.R;
 
 /**
- * Created by Administrator on 2017/7/4.
+ * Created by Administrator on 2017/7/5.
  */
 
-public class RecommendAdapter extends BaseAdapter {
+public class DiscussAdapter extends BaseAdapter {
 
     private Context context;
-    private List<Course> datas;
+    private List<Discuss> datas;
 
-    public RecommendAdapter(Context context,List<Course> datas) {
+    public DiscussAdapter(Context context,List<Discuss> datas) {
         this.context = context;
         this.datas = datas;
     }
@@ -44,18 +44,13 @@ public class RecommendAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Course data = datas.get(position);
+        Discuss data = datas.get(position);
         TextView list_name;
         ImageView list_pic;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.content_recommend,null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.content_discuss,null);
         }
-        list_name = (TextView)convertView.findViewById(R.id.course_name);
-        list_name.setText(data.getCourseName());
-        list_pic = (ImageView) convertView.findViewById(R.id.course_image);
-        list_pic.setImageResource(data.getCoursePic());
         return convertView;
     }
-
 
 }
