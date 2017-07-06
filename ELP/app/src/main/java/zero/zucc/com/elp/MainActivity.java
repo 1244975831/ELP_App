@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.SearchView;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,6 +28,7 @@ import zero.zucc.com.elp.Fragment.Course_LessonFragment;
 import zero.zucc.com.elp.Fragment.Course_ListFragment;
 import zero.zucc.com.elp.Item.Course;
 import zero.zucc.com.elp.Item.User;
+import zero.zucc.com.elp.Tool.AvatarImageView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity
     SearchView searchView;
     Toolbar toolbar;
     ArrayList<Course> listdata = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +44,8 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-
-        Course c = new Course() ;
-        c.setCourseName("c");
-        c.setCoursePic(R.drawable.noimage);
-        listdata.add(c);
-        listdata.add(c);
-
+        //加载数据
+        initData();
 
         recommend = (ListView)findViewById(R.id.recommend) ;
         RecommendAdapter recommendAdapter = new RecommendAdapter(this,listdata);
@@ -57,10 +55,6 @@ public class MainActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-//                Course_LessonFragment course_lessonFragment = new Course_LessonFragment();
-//                transaction.replace(android.R.id.content,course_lessonFragment);
-//                transaction.addToBackStack(null);
-//                transaction.commit();
                 recommend.setVisibility(View.GONE);
                 toolbar.setVisibility(View.GONE);
                 Course_ListFragment course_listFragment = new Course_ListFragment();
@@ -89,6 +83,18 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private void initData(){
+        Course c = new Course() ;
+        c.setCourseName("JavaScript");
+        c.setCoursePic(R.drawable.js);
+        c.setCourseInfo("JavaScript 是互联网上最流行的脚本语言，这门语言可用于 HTML 和 web，更可广泛用于服务器、PC、笔记本电脑、平板电脑和智能手机等设备。");
+        listdata.add(c);
+        c = new Course() ;
+        c.setCourseName("Struts2框架");
+        c.setCoursePic(R.drawable.struts);
+        c.setCourseInfo("Struts2以WebWork优秀的设计思想为核心，吸收了 Struts框架的部分优点，提供了一个更加整洁的MVC设计模式实现的Web 应用程序框架");
+        listdata.add(c);
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -145,6 +151,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     public  void back (){
         recommend.setVisibility(View.VISIBLE);
         toolbar.setVisibility(View.VISIBLE);

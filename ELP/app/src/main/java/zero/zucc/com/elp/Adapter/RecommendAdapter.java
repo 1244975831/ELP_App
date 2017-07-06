@@ -47,6 +47,7 @@ public class RecommendAdapter extends BaseAdapter {
         Course data = datas.get(position);
         TextView list_name;
         ImageView list_pic;
+        TextView list_info;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.content_recommend,null);
         }
@@ -54,6 +55,8 @@ public class RecommendAdapter extends BaseAdapter {
         list_name.setText(data.getCourseName());
         list_pic = (ImageView) convertView.findViewById(R.id.course_image);
         list_pic.setImageResource(data.getCoursePic());
+        list_info = (TextView)convertView.findViewById(R.id.course_info);
+        list_info.setText(data.getCourseInfo());
         return convertView;
     }
 

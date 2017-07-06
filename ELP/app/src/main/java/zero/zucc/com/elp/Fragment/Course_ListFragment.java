@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -28,11 +30,15 @@ import zero.zucc.com.elp.Tool.DensityUtil;
 
 public class Course_ListFragment extends Fragment {
     ListView courselist;
+    ImageView head_course;
+    ImageButton head_back;
     private ArrayList<Lesson> listdata = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_courselist, container, false);
         courselist = (ListView)v.findViewById(R.id.course_list);
+        head_course = (ImageView)v.findViewById(R.id.head_course);
+        head_back = (ImageButton)v.findViewById(R.id.head_back);
         init();
         courselist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -46,6 +52,14 @@ public class Course_ListFragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
+        head_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity mainActivity = (MainActivity)getActivity();
+                mainActivity.back();
+                getFragmentManager().popBackStack();
+            }
+        });
         return v;
     }
     public void init(){
@@ -55,6 +69,8 @@ public class Course_ListFragment extends Fragment {
         layoutParams.width = ViewGroup.LayoutParams.FILL_PARENT;
         // 行高194px
         int height = DensityUtil.dip2px(getActivity(),50);
+
+        head_course.setImageResource(R.drawable.js);
         Lesson c = new Lesson() ;
         c.setLessonName("c");
         listdata.add(c);
