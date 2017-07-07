@@ -7,6 +7,9 @@
     card_view:cardElevation="2dp"
     card_view:cardPreventCornerOverlap="true"
     card_view:cardUseCompatPadding="true"
+    android:focusable="false"
+    android:clickable="false"
+    android:foreground="?android:attr/selectableItemBackground"
     >
 
     <LinearLayout

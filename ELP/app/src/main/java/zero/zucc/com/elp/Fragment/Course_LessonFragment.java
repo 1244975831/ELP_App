@@ -2,6 +2,7 @@ package zero.zucc.com.elp.Fragment;
 
 import android.app.Fragment;
 import android.graphics.Canvas;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -23,6 +25,7 @@ import com.lidong.pdf.listener.OnDrawListener;
 import com.lidong.pdf.listener.OnLoadCompleteListener;
 import com.lidong.pdf.listener.OnPageChangeListener;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import zero.zucc.com.elp.Adapter.DiscussAdapter;
@@ -50,6 +53,11 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
     ImageButton fullscreen_exit;
     ImageView back;
     RelativeLayout filelayout;
+    ImageButton btn_start;
+    ImageButton btn_pause;
+    RelativeLayout Audio;
+    private MediaPlayer mediaPlayer;
+    String type;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_course, container, false);
@@ -58,9 +66,51 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
         pdfView = (com.lidong.pdf.PDFView)v.findViewById(R.id.Pdf);
         fullscreen = (ImageButton)v.findViewById(R.id.course_fullscreen);
         fullscreen_exit = (ImageButton)v.findViewById(R.id.course_fullscreenexit);
+        Audio = (RelativeLayout) v.findViewById(R.id.Audio);
         back = (ImageButton)v.findViewById(R.id.course_back);
-
+        btn_start = (ImageButton)v.findViewById(R.id.btn_start);
+        btn_pause = (ImageButton) v.findViewById(R.id.btn_pause);
         filelayout = (RelativeLayout)v.findViewById(R.id.filelayout);
+
+        init();
+        Typeinit();
+        if(type.equals("ppt")) {
+            PDFinit();
+            pdfView.setVisibility(View.VISIBLE);
+            introView.setVisibility(View.GONE);
+            Audio.setVisibility(View.GONE);
+        }
+        else if(type.equals("video")){
+            pdfView.setVisibility(View.GONE);
+            introView.setVisibility(View.VISIBLE);
+            Audio.setVisibility(View.GONE);
+            Videoinit();
+        }
+        else if(type.equals("audio")){
+            pdfView.setVisibility(View.GONE);
+            introView.setVisibility(View.GONE);
+            Audio.setVisibility(View.VISIBLE);
+        }
+
+        btn_start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Playerinit();
+                mediaPlayer.start();
+                btn_pause.setVisibility(View.VISIBLE);
+                btn_start.setVisibility(View.GONE);
+            }
+        });
+        btn_pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mediaPlayer.pause();
+                btn_start.setVisibility(View.VISIBLE);
+                btn_pause.setVisibility(View.GONE);
+            }
+        });
+
+
         fullscreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,9 +140,6 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
                 getFragmentManager().popBackStack();
             }
         });
-        init();
-        PDFinit();
-        Videoinit();
         return v;
 
     }
@@ -153,13 +200,85 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
 
     }
 
+    private void Playerinit(){
+        String path = "http://www.mobvcasting.com/android/audio/goodmorningandroid.mp3";
+        try {
+
+            mediaPlayer = new MediaPlayer();
+            // 设置指定的流媒体地址
+            mediaPlayer.setDataSource(path);
+            // 设置音频流的类型
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            // 通过异步的方式装载媒体资源
+            mediaPlayer.prepareAsync();
+
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+                @Override
+
+                public void onPrepared(MediaPlayer mp) {
+                    // 装载完毕 开始播放流媒体
+                    mediaPlayer.start();
+                    // 避免重复播放，把播放按钮设置为不可用
+                    btn_start.setEnabled(false);
+                }
+            });
+
+            // 设置循环播放
+//                 mediaPlayer.setLooping(true);
+
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+
+                @Override
+
+                public void onCompletion(MediaPlayer mp) {
+
+                    // 在播放完毕被回调
+                    btn_start.setVisibility(View.VISIBLE);
+                    btn_pause.setVisibility(View.GONE);
+                    btn_start.setEnabled(true);
+
+                }
+
+            });
+
+
+
+            mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+
+
+                @Override
+
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+
+                    // 如果发生错误，重新播放
+
+//                        replay();
+
+                    return false;
+
+                }
+
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void Typeinit(){
+        Bundle bundle = getArguments();
+        type = bundle.getString("type");
+    }
+
     private void displayFromFile1( String fileUrl ,String fileName) {
 
         pdfView.fileFromLocalStorage(this,this,this,fileUrl,fileName);   //设置pdf文件地址
 
     }
-
-
 
     /**
 

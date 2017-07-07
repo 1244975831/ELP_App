@@ -50,6 +50,8 @@ public class LessonListAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.content_lessonlist,null);
         }
+        list_name = (TextView)convertView.findViewById(R.id.lesson_name);
+        list_name.setText(data.getLessonName());
         return convertView;
     }
 }

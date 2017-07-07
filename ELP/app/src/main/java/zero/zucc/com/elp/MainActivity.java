@@ -23,6 +23,7 @@ import etong.bottomnavigation.lib.BottomNavigationBar;
 import zero.zucc.com.elp.Adapter.RecommendAdapter;
 import zero.zucc.com.elp.Fragment.Course_ListFragment;
 import zero.zucc.com.elp.Item.Course;
+import zero.zucc.com.elp.Item.Lesson;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity
     Toolbar toolbar;
     BottomNavigationBar bottomNavigationBar;
     ArrayList<Course> listdata = new ArrayList<>();
+    ArrayList<Lesson> lessondata = new ArrayList<>();
     RecommendAdapter recommendAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         //加载数据
         initDataHS();
-
+        initDataLesson();
         recommend = (ListView)findViewById(R.id.recommend) ;
         recommendAdapter = new RecommendAdapter(this,listdata);
         recommend.setAdapter(recommendAdapter);
@@ -56,6 +58,17 @@ public class MainActivity extends AppCompatActivity
                 recommend.setVisibility(View.GONE);
                 toolbar.setVisibility(View.GONE);
                 Course_ListFragment course_listFragment = new Course_ListFragment();
+
+                Course atransfer = new Course();
+                atransfer = listdata.get(position);
+                ArrayList arrayList = new ArrayList();
+                Bundle bundle = new Bundle();
+                arrayList.add(atransfer);
+                bundle.putStringArrayList("course",arrayList);
+                arrayList = new ArrayList();
+                arrayList.addAll(lessondata);
+                bundle.putParcelableArrayList("lesson",arrayList);
+                course_listFragment.setArguments(bundle);
                 transaction.replace(android.R.id.content,course_listFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
@@ -91,6 +104,7 @@ public class MainActivity extends AppCompatActivity
     private void initDataHS(){
         listdata.clear();
         Course c = new Course() ;
+        c.setCourseId("1");
         c.setCourseName("JavaScript");
         c.setCoursePic(R.drawable.js);
         c.setCourseInfo("JavaScript 是互联网上最流行的脚本语言，这门语言可用于 HTML 和 web，更可广泛用于服务器、PC、笔记本电脑、平板电脑和智能手机等设备。");
@@ -100,6 +114,7 @@ public class MainActivity extends AppCompatActivity
     private void initDataRM(){
         listdata.clear();
         Course c = new Course() ;
+        c.setCourseId("2");
         c.setCourseName("Struts2框架");
         c.setCoursePic(R.drawable.struts);
         c.setCourseInfo("Struts2以WebWork优秀的设计思想为核心，吸收了 Struts框架的部分优点，提供了一个更加整洁的MVC设计模式实现的Web 应用程序框架");
@@ -109,15 +124,80 @@ public class MainActivity extends AppCompatActivity
     private void initDataAL(){
         listdata.clear();
         Course c = new Course() ;
+        c.setCourseId("1");
         c.setCourseName("JavaScript");
         c.setCoursePic(R.drawable.js);
         c.setCourseInfo("JavaScript 是互联网上最流行的脚本语言，这门语言可用于 HTML 和 web，更可广泛用于服务器、PC、笔记本电脑、平板电脑和智能手机等设备。");
         listdata.add(c);
         c = new Course() ;
+        c.setCourseId("2");
         c.setCourseName("Struts2框架");
         c.setCoursePic(R.drawable.struts);
         c.setCourseInfo("Struts2以WebWork优秀的设计思想为核心，吸收了 Struts框架的部分优点，提供了一个更加整洁的MVC设计模式实现的Web 应用程序框架");
         listdata.add(c);
+    }
+
+    private void initDataLesson(){
+        Lesson l = new Lesson();
+        l.setCourseNum("1");
+        l.setLessonName("JavaScript介绍");
+        l.setLessonType("ppt");
+        lessondata.add(l);
+        l = new Lesson();
+        l.setCourseNum("1");
+        l.setLessonName("变量");
+        l.setLessonType("video");
+        lessondata.add(l);
+        l = new Lesson();
+        l.setCourseNum("1");
+        l.setLessonName("计算");
+        l.setLessonType("audio");
+        lessondata.add(l);
+        l = new Lesson();
+        l.setCourseNum("1");
+        l.setLessonName("判断");
+        l.setLessonType("ppt");
+        lessondata.add(l);
+        l = new Lesson();
+        l.setCourseNum("1");
+        l.setLessonName("循环");
+        l.setLessonType("ppt");
+        lessondata.add(l);
+        l = new Lesson();
+        l.setCourseNum("1");
+        l.setLessonName("函数");
+        l.setLessonType("ppt");
+        lessondata.add(l);
+        l = new Lesson();
+        l.setCourseNum("1");
+        l.setLessonName("数组");
+        l.setLessonType("ppt");
+        lessondata.add(l);
+        l = new Lesson();
+        l.setCourseNum("2");
+        l.setLessonName("介绍Struts 2及Struts 2开发环境的搭建");
+        l.setLessonType("video");
+        lessondata.add(l);
+        l = new Lesson();
+        l.setCourseNum("2");
+        l.setLessonName("第一个Struts2应用开发");
+        l.setLessonType("ppt");
+        lessondata.add(l);
+        l = new Lesson();
+        l.setCourseNum("2");
+        l.setLessonName("解决Struts2配置文件无提示问题");
+        l.setLessonType("audio");
+        lessondata.add(l);
+        l = new Lesson();
+        l.setCourseNum("2");
+        l.setLessonName("Action名称的搜索顺序");
+        l.setLessonType("video");
+        lessondata.add(l);
+        l = new Lesson();
+        l.setCourseNum("2");
+        l.setLessonName("Action配置的各项默认值");
+        l.setLessonType("video");
+        lessondata.add(l);
     }
 
     @Override

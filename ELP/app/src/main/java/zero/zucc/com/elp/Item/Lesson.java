@@ -1,10 +1,12 @@
 package zero.zucc.com.elp.Item;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/7/4.
  */
 
-public class Lesson {
+public class Lesson implements Serializable {
     String lessonName;
     String lessonInfo;
     String lessonType;

@@ -50,6 +50,7 @@
                     android:textColor="#de000000"
                     android:textStyle="bold"/>
                 <TextView
+                    android:id="@+id/course_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="14dp"
@@ -73,11 +74,12 @@
 
                 </ListView>
                 <TextView
+                    android:id="@+id/courselist_bottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:layout_gravity="center_horizontal"
-                    android:text="没有更多了"
+                    android:text="我是有底线的"
                     android:layout_marginBottom="8dp"
                     android:textColor="@color/divider"/>
             </LinearLayout>

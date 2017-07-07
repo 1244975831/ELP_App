@@ -11,7 +11,7 @@ public class Course {
     String adminNum;
     String lessonRecode;
     String courseInfo;
-
+    String courseId;
 
     public String getLessonRecode() {
         return lessonRecode;
@@ -60,5 +60,13 @@ public class Course {
 
     public void setCourseInfo(String courseInfo) {
         this.courseInfo = courseInfo;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 }
