@@ -15,6 +15,6 @@
         <color name="divider">#BDBDBD</color>
     <color name="text">#de000000</color>
     <color name="botton">#108EE9</color>
-
+    <color name="editextback">#f7f9fb</color>
 
 </resources>

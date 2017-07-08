@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 recommend.setVisibility(View.GONE);
                 toolbar.setVisibility(View.GONE);
+                bottomNavigationBar.setVisibility(View.GONE);
                 Course_ListFragment course_listFragment = new Course_ListFragment();
 
                 Course atransfer = new Course();
@@ -260,5 +261,6 @@ public class MainActivity extends AppCompatActivity
     public  void back (){
         recommend.setVisibility(View.VISIBLE);
         toolbar.setVisibility(View.VISIBLE);
+        bottomNavigationBar.setVisibility(View.VISIBLE);
     }
 }

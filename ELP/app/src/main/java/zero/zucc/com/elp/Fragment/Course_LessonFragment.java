@@ -1,6 +1,8 @@
 package zero.zucc.com.elp.Fragment;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.graphics.Canvas;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -11,6 +13,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -57,11 +60,12 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
     ImageButton btn_pause;
     RelativeLayout Audio;
     private MediaPlayer mediaPlayer;
+    ListView discuss_list;
     String type;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_course, container, false);
-        discuss = (ListView)v.findViewById(R.id.discuss);
+        discuss = (ListView)v.findViewById(R.id.discuss_list);
         introView = (VideoView)v.findViewById(R.id.Video);
         pdfView = (com.lidong.pdf.PDFView)v.findViewById(R.id.Pdf);
         fullscreen = (ImageButton)v.findViewById(R.id.course_fullscreen);
@@ -71,6 +75,7 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
         btn_start = (ImageButton)v.findViewById(R.id.btn_start);
         btn_pause = (ImageButton) v.findViewById(R.id.btn_pause);
         filelayout = (RelativeLayout)v.findViewById(R.id.filelayout);
+        discuss_list = (ListView)v.findViewById(R.id.discuss_list);
 
         init();
         Typeinit();
@@ -132,6 +137,19 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
                 int height = DensityUtil.dip2px(getActivity(),240);
                 layoutParams.height = height;
                 filelayout.setLayoutParams(layoutParams);
+            }
+        });
+        discuss_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Course_DiscussListFragment course_discussListFragment = new Course_DiscussListFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(android.R.id.content,course_discussListFragment);
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
         back.setOnClickListener(new View.OnClickListener() {
@@ -294,9 +312,9 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
 
     public void onPageChanged(int page, int pageCount) {
 
-        Toast.makeText( getActivity() , "page= " + page +
+        Toast.makeText( getActivity() , "当前是第" + page + "页" +
 
-                " pageCount= " + pageCount , Toast.LENGTH_SHORT).show();
+                " 共 " + pageCount + "页" , Toast.LENGTH_SHORT).show();
 
     }
 
