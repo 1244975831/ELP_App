@@ -1,10 +1,12 @@
 package zero.zucc.com.elp.Item;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/7/4.
  */
 
-public class Discuss {
+public class Discuss implements Serializable {
     String lessonNum;//课程编号
     String lessonName;
     String recDiscussNum;//回复编号

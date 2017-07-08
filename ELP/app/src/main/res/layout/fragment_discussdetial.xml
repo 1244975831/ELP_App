@@ -2,12 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="24dp"
     android:background="#fff"
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/editextback"
+        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/course_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/back_black"
+            android:background="#0fff"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:layout_marginRight="48dp"
+            android:text="详细评论"
+            android:textColor="@color/text"
+            android:textSize="16sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:paddingTop="8dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
@@ -63,12 +83,42 @@
             android:layout_height="wrap_content"
             android:text="共4条"/>
     </LinearLayout>
-    <ListView
-        android:id="@+id/discuss_detiallist"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/text">
-    </ListView>
-
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/discuss_detiallist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/text">
+        </ListView>
+        <RelativeLayout
+            android:id="@+id/discuss_edit"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/editextback">
+            <EditText
+                android:id="@+id/discuss_editcontent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_toLeftOf="@+id/discuss_send"
+                android:hint="@string/disscussdetial_edithint"
+                android:textSize="16sp"/>
+            <Button
+                android:id="@+id/discuss_send"
+                android:layout_width="36dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/shape_corner"
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="16dp"
+                android:text="@string/disscuss_send"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </RelativeLayout>
 </LinearLayout>

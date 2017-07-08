@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingTop="8dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:minHeight="?android:attr/listPreferredItemHeight">
 
-    <ImageView
+    <LinearLayout
         android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:adjustViewBounds="true"
-        android:src="@drawable/noimage"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/noimage"/>
+        <ImageView
+            android:id="@+id/mat"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,9 +36,9 @@
         <TextView
             android:id="@+id/send_content"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="哈哈哈哈哈哈"
+            android:layout_height="50dp"
+            android:layout_marginTop="4dp"
+            android:text="老师贵姓？讲得非常好！从哪里还能看到你更深入的讲座?您出了什么书？我想拜读！"
             android:textSize="14sp"/>
     </LinearLayout>
 </LinearLayout>

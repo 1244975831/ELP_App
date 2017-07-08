@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,8 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
     private ListView discuss;
     private com.lidong.pdf.PDFView pdfView;
     private ArrayList<Discuss> listdata = new ArrayList<>();
+    private ArrayList<Discuss> listdetialdata = new ArrayList<>();
+    ArrayList<Discuss> discusslist = new ArrayList<>();
     ImageButton fullscreen;
     ImageButton fullscreen_exit;
     ImageView back;
@@ -145,6 +148,17 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
 
                 Course_DiscussListFragment course_discussListFragment = new Course_DiscussListFragment();
                 FragmentManager fragmentManager = getFragmentManager();
+                Bundle bundle = new Bundle();
+                ArrayList arrayList = new ArrayList();
+                for(int i = 0 ; i<listdetialdata.size() ; i ++){
+                    if (listdetialdata.get(i).getRecDiscussNum().equals(discusslist.get(position).getTalkUserNum()))
+                        arrayList.add(listdetialdata.get(i));
+                }
+                bundle.putParcelableArrayList("discuss",arrayList);
+                arrayList = new ArrayList();
+                arrayList.add(discusslist.get(position));
+                bundle.putParcelableArrayList("discussmain",arrayList);
+                course_discussListFragment.setArguments(bundle);
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(android.R.id.content,course_discussListFragment);
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -164,19 +178,66 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
 
     public void init(){
         Discuss c = new Discuss() ;
-        c.setTalkUserName("c");
+        c.setTalkUserNum("1");
+        c.setTalkUserName("阿污");
+        c.setDiscussContent("循环，数组，对象没看懂，需要再看一遍。");
+        c.setRecDiscussName(null);
+        c.setRecDiscussNum(null);
         listdata.add(c);
+        c = new Discuss() ;
+        c.setTalkUserNum("1");
+        c.setTalkUserName("伟嘉");
+        c.setDiscussContent("循环很简单的我教你。");
+        c.setRecDiscussName("伟嘉");
+        c.setRecDiscussNum("1");
         listdata.add(c);
+        c = new Discuss() ;
+        c.setTalkUserNum("1");
+        c.setTalkUserName("小杭同学");
+        c.setDiscussContent("数组很简单的我教你。");
+        c.setRecDiscussName("小杭同学");
+        c.setRecDiscussNum("1");
         listdata.add(c);
-        listdata.add(c);
-        listdata.add(c);
-        listdata.add(c);
-        listdata.add(c);
-        listdata.add(c);
+        c = new Discuss() ;
+        c.setTalkUserNum("1");
+        c.setTalkUserName("胃肠炎");
+        c.setDiscussContent("对象很简单的我教你。");
+        c.setRecDiscussName("胃肠炎");
+        c.setRecDiscussNum("1");
         listdata.add(c);
 
+        c = new Discuss() ;
+        c.setTalkUserNum("2");
+        c.setTalkUserName("伟嘉");
+        c.setDiscussContent("哪里有好用的框架。");
+        c.setRecDiscussName(null);
+        c.setRecDiscussNum(null);
+        listdata.add(c);
+        c = new Discuss() ;
+        c.setTalkUserNum("3");
+        c.setTalkUserName("小杭同学");
+        c.setDiscussContent("下一节课到底是什么时候上啊？感觉下一节课的内容好多，啥时候讲咧？");
+        c.setRecDiscussName(null);
+        c.setRecDiscussNum(null);
+        listdata.add(c);
+        c = new Discuss() ;
+        c.setTalkUserNum("4");
+        c.setTalkUserName("胃肠炎");
+        c.setDiscussContent("老师贵姓？讲得非常好！从哪里还能看到你更深入的讲座?您出了什么书？我想拜读！");
+        c.setRecDiscussName(null);
+        c.setRecDiscussNum(null);
+        listdata.add(c);
+        discusslist.clear();
+        listdetialdata.clear();
+        for(int i = 0 ; i< listdata.size() ; i ++ ){
+            if(listdata.get(i).getRecDiscussNum()==(null))
+                discusslist.add(listdata.get(i));
+            else{
+                listdetialdata.add(listdata.get(i));
+            }
+        }
 
-        DiscussAdapter discussAdapter = new DiscussAdapter(getActivity(),listdata);
+        DiscussAdapter discussAdapter = new DiscussAdapter(getActivity(),discusslist);
         discuss.setAdapter(discussAdapter);
     }
 
@@ -319,15 +380,6 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
     }
 
 
-
-    /**
-
-     * 加载完成回调
-
-     * @param nbPages  总共的页数
-
-     */
-
     @Override
 
     public void loadComplete(int nbPages) {
@@ -335,8 +387,6 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
         Toast.makeText( getActivity() ,  "加载完成" + nbPages  , Toast.LENGTH_SHORT).show();
 
     }
-
-
 
     @Override
 

@@ -108,26 +108,4 @@ public class Course_ListFragment extends Fragment {
         courselist.setAdapter(lessonListAdapter);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getView().setFocusableInTouchMode(true);
-        //得到Fragment的根布局并且使其获得焦点
-        getView().requestFocus();
-        //对该根布局View注册KeyListener的监听
-        getView().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
-                    // handle back button
-                    MainActivity mainActivity = (MainActivity)getActivity();
-                    mainActivity.back();
-                    getFragmentManager().popBackStack();
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
 }
