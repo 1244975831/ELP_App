@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/filelayout"
         android:layout_width="match_parent"
-        android:layout_height="240dp">
+        android:layout_height="wrap_content">
         <VideoView
             android:id="@+id/Video"
             android:layout_width="match_parent"
@@ -46,29 +46,39 @@
                 android:layout_centerHorizontal="true"
                 android:paddingBottom="8dp"/>
         </RelativeLayout>
+
         <ImageButton
             android:id="@+id/course_fullscreen"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="24dp"
+            android:layout_marginRight="16dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:src="@drawable/fullscreen_black"
-            android:background="#0fff"/>
+            android:layout_marginTop="160dp"
+            android:src="@drawable/fullscreen_white"
+            android:background="@drawable/button_back"/>
         <ImageButton
             android:id="@+id/course_fullscreenexit"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="24dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:src="@drawable/fullscreen_exit_black"
+            android:src="@drawable/fullscreen_exit_white"
             android:visibility="gone"
-            android:background="#0fff"/>
+            android:background="@drawable/button_back"/>
         <ImageButton
             android:id="@+id/course_back"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/back_black"
-            android:background="#0fff"/>
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="24dp"
+            android:layout_margin="16dp"
+            android:src="@drawable/back_white"
+            android:background="@drawable/button_back"/>
+
+
     </RelativeLayout>
 
     <TextView

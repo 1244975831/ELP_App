@@ -3,6 +3,7 @@ package zero.zucc.com.elp.Fragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.pm.ActivityInfo;
 import android.graphics.Canvas;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -37,6 +39,7 @@ import zero.zucc.com.elp.Adapter.RecommendAdapter;
 import zero.zucc.com.elp.Item.Course;
 import zero.zucc.com.elp.Item.Discuss;
 import zero.zucc.com.elp.LoginActivity;
+import zero.zucc.com.elp.MainActivity;
 import zero.zucc.com.elp.R;
 import zero.zucc.com.elp.Tool.DensityUtil;
 
@@ -65,6 +68,8 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
     private MediaPlayer mediaPlayer;
     ListView discuss_list;
     String type;
+    EditText send_content;
+    Button send;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_course, container, false);
@@ -79,14 +84,31 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
         btn_pause = (ImageButton) v.findViewById(R.id.btn_pause);
         filelayout = (RelativeLayout)v.findViewById(R.id.filelayout);
         discuss_list = (ListView)v.findViewById(R.id.discuss_list);
-
+        send_content = (EditText)v.findViewById(R.id.discuss_editcontent);
+        send = (Button)v.findViewById(R.id.discuss_send) ;
         init();
         Typeinit();
+        send.setVisibility(View.GONE);
+        send_content.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    send.setVisibility(View.VISIBLE);
+                }else {
+                    send.setVisibility(View.GONE);
+                }
+            }
+        });
         if(type.equals("ppt")) {
             PDFinit();
             pdfView.setVisibility(View.VISIBLE);
             introView.setVisibility(View.GONE);
             Audio.setVisibility(View.GONE);
+            ViewGroup.LayoutParams layoutParams = filelayout.getLayoutParams();
+            layoutParams.width = ViewGroup.LayoutParams.FILL_PARENT;
+            int height = DensityUtil.dip2px(getActivity(),200);
+            layoutParams.height = height;
+            filelayout.setLayoutParams(layoutParams);
         }
         else if(type.equals("video")){
             pdfView.setVisibility(View.GONE);
@@ -122,24 +144,38 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
         fullscreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fullscreen_exit.setVisibility(View.VISIBLE);
-                fullscreen.setVisibility(View.GONE);
-                ViewGroup.LayoutParams layoutParams = filelayout.getLayoutParams();
-                layoutParams.width = ViewGroup.LayoutParams.FILL_PARENT;
-                layoutParams.height = ViewGroup.LayoutParams.FILL_PARENT;
-                filelayout.setLayoutParams(layoutParams);
+                if(type.equals("video")) {
+                    fullscreen_exit.setVisibility(View.VISIBLE);
+                    fullscreen.setVisibility(View.GONE);
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    mainActivity.changeconfigLANDSCAPE();
+                }else if(type.equals("ppt")){
+                    fullscreen_exit.setVisibility(View.VISIBLE);
+                    fullscreen.setVisibility(View.GONE);
+                    ViewGroup.LayoutParams layoutParams = filelayout.getLayoutParams();
+                    layoutParams.width = ViewGroup.LayoutParams.FILL_PARENT;
+                    layoutParams.height = ViewGroup.LayoutParams.FILL_PARENT;
+                    filelayout.setLayoutParams(layoutParams);
+                }
             }
         });
         fullscreen_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fullscreen_exit.setVisibility(View.GONE);
-                fullscreen.setVisibility(View.VISIBLE);
-                ViewGroup.LayoutParams layoutParams = filelayout.getLayoutParams();
-                layoutParams.width = ViewGroup.LayoutParams.FILL_PARENT;
-                int height = DensityUtil.dip2px(getActivity(),240);
-                layoutParams.height = height;
-                filelayout.setLayoutParams(layoutParams);
+                if(type.equals("video")) {
+                    fullscreen_exit.setVisibility(View.GONE);
+                    fullscreen.setVisibility(View.VISIBLE);
+                    MainActivity mainActivity = (MainActivity)getActivity();
+                    mainActivity.changeconfigPORTRAIT();
+                }else if(type.equals("ppt")){
+                    fullscreen_exit.setVisibility(View.GONE);
+                    fullscreen.setVisibility(View.VISIBLE);
+                    ViewGroup.LayoutParams layoutParams = filelayout.getLayoutParams();
+                    layoutParams.width = ViewGroup.LayoutParams.FILL_PARENT;
+                    int height = DensityUtil.dip2px(getActivity(),200);
+                    layoutParams.height = height;
+                    filelayout.setLayoutParams(layoutParams);
+                }
             }
         });
         discuss_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -170,6 +206,8 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
             @Override
             public void onClick(View v) {
                 getFragmentManager().popBackStack();
+                MainActivity mainActivity = (MainActivity)getActivity();
+                mainActivity.changeconfigPORTRAIT();
             }
         });
         return v;
@@ -177,7 +215,9 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
     }
 
     public void init(){
+        listdata.clear();
         Discuss c = new Discuss() ;
+        c.setTalkUserHead(R.drawable.head_aw);
         c.setTalkUserNum("1");
         c.setTalkUserName("阿污");
         c.setDiscussContent("循环，数组，对象没看懂，需要再看一遍。");
@@ -185,21 +225,24 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
         c.setRecDiscussNum(null);
         listdata.add(c);
         c = new Discuss() ;
-        c.setTalkUserNum("1");
+        c.setTalkUserHead(R.drawable.head_wj);
+        c.setTalkUserNum("2");
         c.setTalkUserName("伟嘉");
         c.setDiscussContent("循环很简单的我教你。");
         c.setRecDiscussName("伟嘉");
         c.setRecDiscussNum("1");
         listdata.add(c);
         c = new Discuss() ;
-        c.setTalkUserNum("1");
+        c.setTalkUserNum("3");
+        c.setTalkUserHead(R.drawable.head_leo);
         c.setTalkUserName("小杭同学");
         c.setDiscussContent("数组很简单的我教你。");
         c.setRecDiscussName("小杭同学");
         c.setRecDiscussNum("1");
         listdata.add(c);
         c = new Discuss() ;
-        c.setTalkUserNum("1");
+        c.setTalkUserHead(R.drawable.head_wcy);
+        c.setTalkUserNum("4");
         c.setTalkUserName("胃肠炎");
         c.setDiscussContent("对象很简单的我教你。");
         c.setRecDiscussName("胃肠炎");
@@ -207,6 +250,7 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
         listdata.add(c);
 
         c = new Discuss() ;
+        c.setTalkUserHead(R.drawable.head_wj);
         c.setTalkUserNum("2");
         c.setTalkUserName("伟嘉");
         c.setDiscussContent("哪里有好用的框架。");
@@ -214,6 +258,7 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
         c.setRecDiscussNum(null);
         listdata.add(c);
         c = new Discuss() ;
+        c.setTalkUserHead(R.drawable.head_leo);
         c.setTalkUserNum("3");
         c.setTalkUserName("小杭同学");
         c.setDiscussContent("下一节课到底是什么时候上啊？感觉下一节课的内容好多，啥时候讲咧？");
@@ -221,6 +266,7 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
         c.setRecDiscussNum(null);
         listdata.add(c);
         c = new Discuss() ;
+        c.setTalkUserHead(R.drawable.head_wcy);
         c.setTalkUserNum("4");
         c.setTalkUserName("胃肠炎");
         c.setDiscussContent("老师贵姓？讲得非常好！从哪里还能看到你更深入的讲座?您出了什么书？我想拜读！");
@@ -384,7 +430,7 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
 
     public void loadComplete(int nbPages) {
 
-        Toast.makeText( getActivity() ,  "加载完成" + nbPages  , Toast.LENGTH_SHORT).show();
+//        Toast.makeText( getActivity() ,  "加载完成" + nbPages  , Toast.LENGTH_SHORT).show();
 
     }
 

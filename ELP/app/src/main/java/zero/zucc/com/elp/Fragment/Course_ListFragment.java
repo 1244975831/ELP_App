@@ -70,6 +70,7 @@ public class Course_ListFragment extends Fragment {
                 MainActivity mainActivity = (MainActivity)getActivity();
                 mainActivity.back();
                 getFragmentManager().popBackStack();
+
             }
         });
         return v;

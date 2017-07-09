@@ -11,7 +11,8 @@
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <ImageView
+        <zero.zucc.com.elp.Tool.AvatarImageView
+            android:id="@+id/head"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:adjustViewBounds="true"

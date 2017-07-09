@@ -50,14 +50,17 @@ public class DiscussAdapter extends BaseAdapter {
         TextView send_user;
         TextView send_content;
         ImageView mat;
+        ImageView head;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.content_discuss,null);
         }
         send_user = (TextView)convertView.findViewById(R.id.send_user);
         send_content = (TextView)convertView.findViewById(R.id.send_content);
         mat = (ImageView)convertView.findViewById(R.id.mat);
+        head = (ImageView)convertView.findViewById(R.id.head);
         send_user.setText(data.getTalkUserName());
         send_content.setText(data.getDiscussContent());
+        head.setImageResource(data.getTalkUserHead());
         ViewGroup.LayoutParams layoutParams = mat.getLayoutParams();
         layoutParams.width = ViewGroup.LayoutParams.FILL_PARENT;
         // 行高194px

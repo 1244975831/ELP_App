@@ -3,27 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
+    android:layout_marginTop="18dp"
     android:orientation="vertical">
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/editextback"
-        android:orientation="horizontal">
-        <ImageButton
-            android:id="@+id/course_back"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/back_black"
-            android:background="#0fff"/>
-        <TextView
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center"
-            android:layout_marginRight="48dp"
-            android:text="详细评论"
-            android:textColor="@color/text"
-            android:textSize="16sp"/>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:elevation="1dp">
+            <ImageButton
+                android:id="@+id/course_back"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:padding="24dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/back_white"
+                android:background="#0fff"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:layout_marginRight="48dp"
+                android:text="详细评论"
+                android:textColor="#deffffff"
+                android:textSize="18sp"/>
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,11 +44,21 @@
         android:paddingRight="16dp"
         android:minHeight="?android:attr/listPreferredItemHeight">
 
-        <ImageView
+        <LinearLayout
             android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:adjustViewBounds="true"
-            android:src="@drawable/noimage"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <zero.zucc.com.elp.Tool.AvatarImageView
+                android:id="@+id/main_head"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/noimage"/>
+            <ImageView
+                android:id="@+id/mat"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" />
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

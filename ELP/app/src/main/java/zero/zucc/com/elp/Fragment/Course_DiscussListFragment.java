@@ -7,6 +7,8 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import zero.zucc.com.elp.Adapter.DiscussAdapter;
 import zero.zucc.com.elp.Item.Course;
 import zero.zucc.com.elp.Item.Discuss;
+import zero.zucc.com.elp.MainActivity;
 import zero.zucc.com.elp.R;
 
 /**
@@ -31,6 +34,10 @@ public class Course_DiscussListFragment extends Fragment {
     Discuss discuss;
     TextView send_content;
     ImageView back;
+    ImageView mat;
+    ImageView main_head;
+    EditText edit_contents;
+    Button send;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,14 +46,44 @@ public class Course_DiscussListFragment extends Fragment {
         send_user = (TextView)v.findViewById(R.id.send_user);
         send_content = (TextView)v.findViewById(R.id.send_content);
         back = (ImageButton)v.findViewById(R.id.course_back);
+        mat = (ImageView)v.findViewById(R.id.mat);
+        edit_contents = (EditText)v.findViewById(R.id.discuss_editcontent);
+        send = (Button)v.findViewById(R.id.discuss_send) ;
+        main_head = (ImageView) v.findViewById(R.id.main_head);
+
         init();
         send_user.setText(discuss.getTalkUserName());
         send_content.setText(discuss.getDiscussContent());
+        main_head.setImageResource(discuss.getTalkUserHead());
+        send.setVisibility(View.GONE);
+        edit_contents.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    send.setVisibility(View.VISIBLE);
+                }else {
+                    send.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        ViewGroup.LayoutParams layoutParams = mat.getLayoutParams();
+        layoutParams.width = ViewGroup.LayoutParams.FILL_PARENT;
+        // 行高194px
+        int height = 100;
+        int hg = 0;
+        if(send_content.length()>20){
+            hg=(send_content.length())/20;
+        }
+        layoutParams.height = height*hg;
+        mat.setLayoutParams(layoutParams);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getFragmentManager().popBackStack();
+                MainActivity mainActivity = (MainActivity)getActivity();
+                mainActivity.changeconfigPORTRAIT();
             }
         });
         return v;

@@ -2,6 +2,8 @@ package zero.zucc.com.elp;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottomLayout);
@@ -203,12 +207,18 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        if(getFragmentManager().getBackStackEntryCount()==1){
+            recommend.setVisibility(View.VISIBLE);
+            toolbar.setVisibility(View.VISIBLE);
+            bottomNavigationBar.setVisibility(View.VISIBLE);
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
+        changeconfigPORTRAIT();
     }
 
     @Override
@@ -262,5 +272,28 @@ public class MainActivity extends AppCompatActivity
         recommend.setVisibility(View.VISIBLE);
         toolbar.setVisibility(View.VISIBLE);
         bottomNavigationBar.setVisibility(View.VISIBLE);
+        changeconfigPORTRAIT();
     }
+
+    public void changeconfigLANDSCAPE(){
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    }
+
+    public void changeconfigPORTRAIT(){
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        try {
+            super.onConfigurationChanged(newConfig);
+            if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+
+            }else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+
+            }
+        } catch (Exception ex) {
+
+        }
+     }
+
 }

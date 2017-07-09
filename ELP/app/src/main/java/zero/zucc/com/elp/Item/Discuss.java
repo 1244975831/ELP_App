@@ -14,7 +14,7 @@ public class Discuss implements Serializable {
     String talkUserNum;//发言编号
     String talkUserName;
     String discussContent;
-
+    int talkUserHead;
     public String getLessonNum() {
         return lessonNum;
     }
@@ -71,4 +71,11 @@ public class Discuss implements Serializable {
         this.talkUserName = talkUserName;
     }
 
+    public int getTalkUserHead() {
+        return talkUserHead;
+    }
+
+    public void setTalkUserHead(int talkUserHead) {
+        this.talkUserHead = talkUserHead;
+    }
 }
