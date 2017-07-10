@@ -26,7 +26,10 @@
     <string name="disscuss_reply">相关回复</string>
 
     <array name="search">
-        <item name = "search_1">Struts2框架</item>
-        <item name = "search_2">JavaScript</item>
+        <item name="search_1">Struts2框架</item>
+        <item name="search_2">JavaScript</item>
     </array>
+    <string name="title_activity_about_us">关于我们</string>
+    <string name="about_us_discrip">企业在线学习平台，是ZERO团队根据虹软公司提出的碎片化时间合理利用化所制作出的一款软件，在这里你能遇到最适合自己的课程，通过学习遇见更好的自己！</string>
+    <string name="title_activity_user_info">我的信息</string>
 </resources>

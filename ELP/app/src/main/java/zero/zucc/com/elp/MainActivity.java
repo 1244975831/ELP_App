@@ -2,6 +2,7 @@ package zero.zucc.com.elp;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -363,8 +364,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
-
+        } else if (id == R.id.nav_about_us) {
+            Intent intent = new Intent(MainActivity.this,AboutUsActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_send) {
 
         }
