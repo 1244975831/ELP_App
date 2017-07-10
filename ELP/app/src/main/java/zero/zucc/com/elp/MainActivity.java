@@ -129,7 +129,23 @@ public class MainActivity extends AppCompatActivity
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(MainActivity.this,query,Toast.LENGTH_SHORT).show();
+                if(query!=""||query!=null){
+                    search_List.setVisibility(View.VISIBLE);
+                    int flag = 0 ;
+                    data.clear();
+                    if("JavaScript".indexOf(query)!=-1||"javaScript".indexOf(query)!=-1||"javascript".indexOf(query)!=-1){
+                        flag++;
+                        data.add("JavaScript");
+                    }
+                    if("Struts2框架".indexOf(query)!=-1||"struts2框架".indexOf(query)!=-1){
+                        flag++;
+                        data.add("Struts2框架");
+                    }
+                    if(flag==0){
+                        data.add("没有相关课程哦");
+                    }
+                    search_adapter.notifyDataSetChanged();
+                }
                 return false;
             }
 
@@ -139,7 +155,7 @@ public class MainActivity extends AppCompatActivity
                     search_List.setVisibility(View.VISIBLE);
                     int flag = 0 ;
                     data.clear();
-                    if("JavaScript".indexOf(newText)!=-1||"javaScript".indexOf(newText)!=-1||"javaScript".indexOf(newText)!=-1){
+                    if("JavaScript".indexOf(newText)!=-1||"javaScript".indexOf(newText)!=-1||"javascript".indexOf(newText)!=-1){
                         flag++;
                         data.add("JavaScript");
                     }
@@ -151,8 +167,6 @@ public class MainActivity extends AppCompatActivity
                         data.add("没有相关课程哦");
                     }
                     search_adapter.notifyDataSetChanged();
-                }else{
-
                 }
                 return false;
             }
@@ -163,6 +177,37 @@ public class MainActivity extends AppCompatActivity
                 title.setVisibility(View.VISIBLE);
                 search_List.setVisibility(View.GONE);
                 return false;
+            }
+        });
+        search_List.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                data.get(position);
+                initDataAL();
+                Course atransfer = new Course();
+                for(int i = 0 ;i<listdata.size() ; i++ ){
+                    if(listdata.get(i).getCourseName().equals( data.get(position))){
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        recommend.setVisibility(View.GONE);
+                        toolbar.setVisibility(View.GONE);
+                        bottomNavigationBar.setVisibility(View.GONE);
+                        Course_ListFragment course_listFragment = new Course_ListFragment();
+                        atransfer = listdata.get(i);
+                        ArrayList arrayList = new ArrayList();
+                        Bundle bundle = new Bundle();
+                        arrayList.add(atransfer);
+                        bundle.putStringArrayList("course",arrayList);
+                        arrayList = new ArrayList();
+                        arrayList.addAll(lessondata);
+                        bundle.putParcelableArrayList("lesson",arrayList);
+                        course_listFragment.setArguments(bundle);
+                        transaction.replace(android.R.id.content,course_listFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                        break;
+                    }
+                }
             }
         });
     }
