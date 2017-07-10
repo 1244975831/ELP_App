@@ -24,4 +24,9 @@
     <string name="disscussdetial_edithint">发表回复</string>
     <string name="disscuss_send">发送</string>
     <string name="disscuss_reply">相关回复</string>
+
+    <array name="search">
+        <item name = "search_1">Struts2框架</item>
+        <item name = "search_2">JavaScript</item>
+    </array>
 </resources>

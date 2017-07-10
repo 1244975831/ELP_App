@@ -17,7 +17,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -31,12 +33,17 @@ import zero.zucc.com.elp.Item.Lesson;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     ListView recommend;
+    ListView search_List;
     SearchView searchView;
     Toolbar toolbar;
+    TextView title;
     BottomNavigationBar bottomNavigationBar;
     ArrayList<Course> listdata = new ArrayList<>();
     ArrayList<Lesson> lessondata = new ArrayList<>();
     RecommendAdapter recommendAdapter;
+    ArrayList<String> data= new ArrayList<>();
+//    String [] data = {"JavaScript","Struts2框架"};
+    ArrayAdapter<String> search_adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +54,11 @@ public class MainActivity extends AppCompatActivity
         bottomNavigationBar.addTab(R.drawable.history_white, "历史课程", 0xff4a5965);
         bottomNavigationBar.addTab(R.drawable.recommend_white, "推荐课程", R.color.accent);
         bottomNavigationBar.addTab(R.drawable.all_white, "所有课程", R.color.colorPrimary);
+        searchView = (SearchView) findViewById(R.id.search);
+        title = (TextView)findViewById(R.id.title);
         setSupportActionBar(toolbar);
+        search_List = (ListView) findViewById(R.id.search_list);
+        searchoperate();
         //加载数据
         initDataHS();
         initDataLesson();
@@ -104,6 +115,56 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void searchoperate(){
+        search_adapter = new ArrayAdapter<String>(this,R.layout.content_search,R.id.search_result,data);
+        search_List.setAdapter(search_adapter);
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                title.setVisibility(View.GONE);
+            }
+        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(MainActivity.this,query,Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(newText!=""||newText!=null){
+                    search_List.setVisibility(View.VISIBLE);
+                    int flag = 0 ;
+                    data.clear();
+                    if("JavaScript".indexOf(newText)!=-1||"javaScript".indexOf(newText)!=-1||"javaScript".indexOf(newText)!=-1){
+                        flag++;
+                        data.add("JavaScript");
+                    }
+                    if("Struts2框架".indexOf(newText)!=-1||"struts2框架".indexOf(newText)!=-1){
+                        flag++;
+                        data.add("Struts2框架");
+                    }
+                    if(flag==0){
+                        data.add("没有相关课程哦");
+                    }
+                    search_adapter.notifyDataSetChanged();
+                }else{
+
+                }
+                return false;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                title.setVisibility(View.VISIBLE);
+                search_List.setVisibility(View.GONE);
+                return false;
+            }
+        });
     }
 
     private void initDataHS(){

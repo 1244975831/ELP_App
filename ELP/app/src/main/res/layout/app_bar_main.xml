@@ -23,6 +23,7 @@
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true">
                 <TextView
+                    android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -33,14 +34,13 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                    <SearchView
+                    <android.support.v7.widget.SearchView
                         android:id="@+id/search"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true">
-                    </SearchView>
-
+                    </android.support.v7.widget.SearchView>
                 </RelativeLayout>
 
             </LinearLayout>

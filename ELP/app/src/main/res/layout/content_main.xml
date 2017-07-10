@@ -17,7 +17,15 @@
         android:id="@+id/recommend"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@null">
-
+        android:divider="@null"
+        >
+    </ListView>
+    <ListView
+        android:id="@+id/search_list"
+        android:layout_below="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/editextback"
+        android:visibility="gone">
     </ListView>
 </RelativeLayout>
