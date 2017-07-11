@@ -172,6 +172,4 @@ public class Course_DiscussListFragment extends Fragment {
         }
 
     };
-
-
 }

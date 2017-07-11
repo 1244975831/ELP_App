@@ -17,8 +17,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -211,17 +213,10 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
                 bundle.putParcelableArrayList("discussmain",arrayList);
                 course_discussListFragment.setArguments(bundle);
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(android.R.id.content,course_discussListFragment);
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//                fragmentTransaction.replace(android.R.id.content,course_discussListFragment);
+                fragmentTransaction.hide(Course_LessonFragment.this).add(android.R.id.content,course_discussListFragment);
+//                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 fragmentTransaction.addToBackStack(null);
-
-                InputMethodManager imm = (InputMethodManager)view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-
-                if(imm.isActive()){
-                    send_content.clearFocus();
-                    imm.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0 );
-
-                }
 
                 fragmentTransaction.commit();
             }
@@ -277,6 +272,7 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
                 }
             }
         });
+
         return v;
 
     }
@@ -420,7 +416,6 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
 
             // 设置循环播放
 //                 mediaPlayer.setLooping(true);
-
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
 
@@ -487,10 +482,10 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
     @Override
 
     public void onPageChanged(int page, int pageCount) {
-
-        Toast.makeText( getActivity() , "当前是第" + page + "页" +
-
-                " 共 " + pageCount + "页" , Toast.LENGTH_SHORT).show();
+//
+//        Toast.makeText( getActivity() , "当前是第" + page + "页" +
+//
+//                " 共 " + pageCount + "页" , Toast.LENGTH_SHORT).show();
 
     }
 
@@ -538,5 +533,6 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
         }
 
     };
+
 
 }
