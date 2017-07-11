@@ -31,7 +31,7 @@
                 android:layout_marginRight="48dp"
                 android:text="课程"
                 android:textColor="#deffffff"
-                android:textSize="18sp"/>
+                android:textSize="20sp"/>
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>

@@ -1,24 +1,30 @@
 package zero.zucc.com.elp.Fragment;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import zero.zucc.com.elp.Adapter.DiscussAdapter;
 import zero.zucc.com.elp.Item.Course;
 import zero.zucc.com.elp.Item.Discuss;
+import zero.zucc.com.elp.LoginActivity;
 import zero.zucc.com.elp.MainActivity;
 import zero.zucc.com.elp.R;
 
@@ -38,6 +44,8 @@ public class Course_DiscussListFragment extends Fragment {
     ImageView main_head;
     EditText edit_contents;
     Button send;
+    TextView count;
+    DiscussAdapter discussAdapter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,10 +58,11 @@ public class Course_DiscussListFragment extends Fragment {
         edit_contents = (EditText)v.findViewById(R.id.discuss_editcontent);
         send = (Button)v.findViewById(R.id.discuss_send) ;
         main_head = (ImageView) v.findViewById(R.id.main_head);
-
+        count = (TextView)v.findViewById(R.id.discuss_count);
         init();
         send_user.setText(discuss.getTalkUserName());
         send_content.setText(discuss.getDiscussContent());
+        edit_contents.setOnKeyListener(onKey);
         main_head.setImageResource(discuss.getTalkUserHead());
         send.setVisibility(View.GONE);
         edit_contents.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -63,6 +72,24 @@ public class Course_DiscussListFragment extends Fragment {
                     send.setVisibility(View.VISIBLE);
                 }else {
                     send.setVisibility(View.GONE);
+                }
+            }
+        });
+        edit_contents.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().equals("")){
+                    edit_contents.setHint("阁下为何欲言又止，何不畅所欲言");
                 }
             }
         });
@@ -86,6 +113,24 @@ public class Course_DiscussListFragment extends Fragment {
                 mainActivity.changeconfigPORTRAIT();
             }
         });
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!edit_contents.getText().toString().equals("")){
+                    Discuss recdissuss = new Discuss();
+                    recdissuss.setTalkUserName("小杭同学");
+                    recdissuss.setDiscussContent(edit_contents.getText().toString());
+                    recdissuss.setTalkUserHead(R.drawable.head_leo);
+                    recdissuss.setRecDiscussNum(discuss.getTalkUserNum());
+                    listdetial.add(recdissuss);
+                    edit_contents.clearFocus();
+                    edit_contents.setText("");
+                    edit_contents.setHint("发表回复");
+                    count.setText("共"+listdetial.size()+"条");
+                    discussAdapter.notifyDataSetChanged();
+                }
+            }
+        });
         return v;
     }
     public void init(){
@@ -97,10 +142,36 @@ public class Course_DiscussListFragment extends Fragment {
         atransfer = new ArrayList();
         atransfer  = bundle.getParcelableArrayList("discussmain");
         discuss =(Discuss) atransfer.get(0);
-
-        DiscussAdapter discussAdapter = new DiscussAdapter(getActivity(),listdetial);
+        count.setText("共"+listdetial.size()+"条");
+        discussAdapter = new DiscussAdapter(getActivity(),listdetial);
         discuss_list.setAdapter(discussAdapter);
     }
+
+    View.OnKeyListener onKey=new View.OnKeyListener() {
+
+        @Override
+
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+            if(keyCode == KeyEvent.KEYCODE_ENTER){
+                send.performClick();
+                InputMethodManager imm = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                if(imm.isActive()){
+                    send_content.clearFocus();
+                    imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0 );
+
+                }
+
+                return true;
+
+            }
+
+            return false;
+
+        }
+
+    };
 
 
 }

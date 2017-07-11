@@ -30,7 +30,7 @@
                 android:layout_marginRight="48dp"
                 android:text="详细评论"
                 android:textColor="#deffffff"
-                android:textSize="18sp"/>
+                android:textSize="20sp"/>
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
@@ -102,7 +102,7 @@
             android:id="@+id/discuss_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="共4条"/>
+            android:text="共3条"/>
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"

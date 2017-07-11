@@ -16,5 +16,10 @@
     <color name="text">#de000000</color>
     <color name="botton">#108EE9</color>
     <color name="editextback">#f7f9fb</color>
-
+    <color name="primary2">#5677fc</color>
+    <color name="primary3">#03a9f4</color>
+    <color name="primary_dark2">#455ede</color>
+    <color name="Red">#ff0000</color>
+    <color name="Green">#00ff00</color>
+    <color name="Blues">#0000ff</color>
 </resources>
