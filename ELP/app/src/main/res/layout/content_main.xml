@@ -12,14 +12,18 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="zero.zucc.com.elp.MainActivity"
     tools:showIn="@layout/app_bar_main">
-
-    <ListView
-        android:id="@+id/recommend"
+    <com.yalantis.phoenix.PullToRefreshView
+        android:id="@+id/pull_to_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@null"
-        >
-    </ListView>
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/recommend"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            >
+        </ListView>
+    </com.yalantis.phoenix.PullToRefreshView>
     <ListView
         android:id="@+id/search_list"
         android:layout_below="@+id/search"

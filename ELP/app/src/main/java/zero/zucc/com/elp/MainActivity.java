@@ -24,6 +24,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yalantis.phoenix.PullToRefreshView;
+
 import java.util.ArrayList;
 
 import etong.bottomnavigation.lib.BottomNavigationBar;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity
     SearchView searchView;
     Toolbar toolbar;
     TextView title;
+    PullToRefreshView mPullToRefreshView;
     BottomNavigationBar bottomNavigationBar;
     ArrayList<Course> listdata = new ArrayList<>();
     ArrayList<Lesson> lessondata = new ArrayList<>();
@@ -61,6 +64,18 @@ public class MainActivity extends AppCompatActivity
         title = (TextView)findViewById(R.id.title);
         setSupportActionBar(toolbar);
         search_List = (ListView) findViewById(R.id.search_list);
+        mPullToRefreshView = (PullToRefreshView) findViewById(R.id.pull_to_refresh);
+        mPullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPullToRefreshView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPullToRefreshView.setRefreshing(false);
+                    }
+                },1000);
+            }
+        });
         searchoperate();
         //加载数据
         initDataHS();

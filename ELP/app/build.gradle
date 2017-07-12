@@ -32,5 +32,7 @@ dependencies {
     compile 'com.github.barteksc:android-pdf-viewer:1.4.0'
     compile 'com.lidong.pdf:android_pdf:1.0.1'
     compile 'com.github.RoyWallace:BottomNavigationBar:v0.1'
+    compile 'com.yalantis:phoenix:1.2.3'
+    compile 'com.daimajia.swipelayout:library:1.2.0'
     testCompile 'junit:junit:4.12'
 }
