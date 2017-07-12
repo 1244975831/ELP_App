@@ -1,56 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/recommend_content"
-    android:layout_width="match_parent"
+<com.daimajia.swipe.SwipeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    card_view:cardElevation="2dp"
-    card_view:cardPreventCornerOverlap="true"
-    card_view:cardUseCompatPadding="true"
-    android:focusable="false"
-    android:clickable="false"
-    android:foreground="?android:attr/selectableItemBackground"
-    >
-
-    <LinearLayout
+    android:layout_width="match_parent">
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        card_view:cardElevation="2dp"
+        card_view:cardPreventCornerOverlap="true"
+        card_view:cardUseCompatPadding="true">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#f00">
+            <ImageButton
+                android:id="@+id/delete"
+                android:layout_width="48dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="#0000"
+                android:src="@drawable/delete_white_24dp"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/recommend_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/course_image"
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_weight="2"
-            android:layout_margin="16dp"
-            android:adjustViewBounds="true"
-            android:src="@drawable/noimage"/>
+        card_view:cardElevation="2dp"
+        card_view:cardPreventCornerOverlap="true"
+        card_view:cardUseCompatPadding="true"
+        android:focusable="false"
+        android:clickable="false"
+        android:foreground="?android:attr/selectableItemBackground"
+        >
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="16dp"
-            android:layout_weight="3">
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/course_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="#DE000000"
-                android:textStyle="normal"
-                android:text="software"/>
-            <TextView
-                android:id="@+id/course_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#DE000000"
-                android:text="cccccccccccccccccccccccccccccccccccccccccc"/>
+            <ImageView
+                android:id="@+id/course_image"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="2"
+                android:layout_margin="16dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/noimage"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_weight="3">
+
+                <TextView
+                    android:id="@+id/course_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="#DE000000"
+                    android:textStyle="normal"
+                    android:text="software"/>
+                <TextView
+                    android:id="@+id/course_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#DE000000"
+                    android:text="cccccccccccccccccccccccccccccccccccccccccc"/>
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
+    </android.support.v7.widget.CardView>
 
-    </LinearLayout>
-
-</android.support.v7.widget.CardView>
+</com.daimajia.swipe.SwipeLayout>

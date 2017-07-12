@@ -44,7 +44,16 @@
                 android:background="#0fff"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:paddingBottom="8dp"/>
+                android:paddingBottom="8dp"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="16dp"
+                android:textColor="@color/text"
+                android:text="正在加载......"/>
         </RelativeLayout>
 
         <ImageButton

@@ -5,12 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import zero.zucc.com.elp.Item.Course;
+import zero.zucc.com.elp.LoginActivity;
+import zero.zucc.com.elp.MainActivity;
 import zero.zucc.com.elp.R;
 
 /**
@@ -18,7 +22,8 @@ import zero.zucc.com.elp.R;
  */
 
 public class RecommendAdapter extends BaseAdapter {
-
+    int item;
+    int res = -1;
     private Context context;
     private List<Course> datas;
 
@@ -48,6 +53,7 @@ public class RecommendAdapter extends BaseAdapter {
         TextView list_name;
         ImageView list_pic;
         TextView list_info;
+        item = position;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.content_recommend,null);
         }
@@ -57,6 +63,16 @@ public class RecommendAdapter extends BaseAdapter {
         list_pic.setImageResource(data.getCoursePic());
         list_info = (TextView)convertView.findViewById(R.id.course_info);
         list_info.setText(data.getCourseInfo());
+        ImageButton delete = (ImageButton)convertView.findViewById(R.id.delete);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity mainActivity = (MainActivity)context;
+                res = item ;
+                mainActivity.Mydelete(res);
+
+            }
+        });
         return convertView;
     }
 

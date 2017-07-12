@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -86,6 +87,8 @@ public class MainActivity extends AppCompatActivity
         recommend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 recommend.setVisibility(View.GONE);
@@ -133,6 +136,13 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+//        delete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(MainActivity.this,"点击了删除",Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     private void searchoperate(){
@@ -376,8 +386,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_userinfo) {
             Intent intent = new Intent(MainActivity.this,UserInfoActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_gallery) {
-
+        } else if (id == R.id.nav_exit) {
+            Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -437,4 +448,15 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void Mydelete (int position){
+        ArrayList<Course> transfer = new ArrayList<>();
+        for(int i = 0 ; i<listdata.size() ; i++){
+            if(i!=position){
+                transfer.add(listdata.get(i));
+            }
+        }
+        listdata.clear();
+        listdata.addAll(transfer);
+        recommendAdapter.notifyDataSetChanged();
+    }
 }

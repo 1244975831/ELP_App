@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -80,6 +81,7 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
     String type;
     EditText send_content;
     Button send;
+    TextView loading;
     int flag=0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -95,6 +97,7 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
         btn_pause = (ImageButton) v.findViewById(R.id.btn_pause);
         filelayout = (RelativeLayout)v.findViewById(R.id.filelayout);
         discuss_list = (ListView)v.findViewById(R.id.discuss_list);
+        loading = (TextView)v.findViewById(R.id.loading);
         send_content = (EditText)v.findViewById(R.id.discuss_editcontent);
         send = (Button)v.findViewById(R.id.discuss_send) ;
         init();
@@ -137,12 +140,12 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
             int height = DensityUtil.dip2px(getActivity(),200);
             layoutParams.height = height;
             filelayout.setLayoutParams(layoutParams);
+            Playerinit();
         }
 
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Playerinit();
                 mediaPlayer.start();
                 btn_pause.setVisibility(View.VISIBLE);
                 btn_start.setVisibility(View.GONE);
@@ -166,6 +169,14 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
                     fullscreen.setVisibility(View.GONE);
                     MainActivity mainActivity = (MainActivity) getActivity();
                     mainActivity.changeconfigLANDSCAPE();
+                    ViewGroup.LayoutParams layoutParams = filelayout.getLayoutParams();
+                    layoutParams.width = ViewGroup.LayoutParams.FILL_PARENT;
+                    layoutParams.height = ViewGroup.LayoutParams.FILL_PARENT;
+                    filelayout.setLayoutParams(layoutParams);
+                    layoutParams = introView.getLayoutParams();
+                    layoutParams.width = ViewGroup.LayoutParams.FILL_PARENT;
+                    layoutParams.height = ViewGroup.LayoutParams.FILL_PARENT;
+                    introView.setLayoutParams(layoutParams);
                 }else if(type.equals("ppt")||type.equals("audio")){
                     fullscreen_exit.setVisibility(View.VISIBLE);
                     fullscreen.setVisibility(View.GONE);
@@ -182,6 +193,16 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
                 if(type.equals("video")) {
                     fullscreen_exit.setVisibility(View.GONE);
                     fullscreen.setVisibility(View.VISIBLE);
+                    ViewGroup.LayoutParams layoutParams = introView.getLayoutParams();
+                    layoutParams.width = ViewGroup.LayoutParams.FILL_PARENT;
+                    int height = DensityUtil.dip2px(getActivity(),200);
+                    layoutParams.height = height;
+                    introView.setLayoutParams(layoutParams);
+                    layoutParams = filelayout.getLayoutParams();
+                    layoutParams.width = ViewGroup.LayoutParams.FILL_PARENT;
+                    height = DensityUtil.dip2px(getActivity(),200);
+                    layoutParams.height = height;
+                    filelayout.setLayoutParams(layoutParams);
                     MainActivity mainActivity = (MainActivity)getActivity();
                     mainActivity.changeconfigPORTRAIT();
                 }else if(type.equals("ppt")||type.equals("audio")){
@@ -393,7 +414,9 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
     private void Playerinit(){
         String path = "http://www.mobvcasting.com/android/audio/goodmorningandroid.mp3";
         try {
-
+            btn_start.setVisibility(View.GONE);
+            btn_pause.setVisibility(View.GONE);
+            loading.setVisibility(View.VISIBLE);
             mediaPlayer = new MediaPlayer();
             // 设置指定的流媒体地址
             mediaPlayer.setDataSource(path);
@@ -408,6 +431,9 @@ public class Course_LessonFragment extends Fragment implements OnPageChangeListe
 
                 public void onPrepared(MediaPlayer mp) {
                     // 装载完毕 开始播放流媒体
+                    loading.setVisibility(View.GONE);
+                    btn_start.setVisibility(View.GONE);
+                    btn_pause.setVisibility(View.VISIBLE);
                     mediaPlayer.start();
                     // 避免重复播放，把播放按钮设置为不可用
                     btn_start.setEnabled(false);

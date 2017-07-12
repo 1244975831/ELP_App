@@ -35,6 +35,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,6 +76,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private View mProgressView;
     private View mLoginFormView;
     private String get;
+    private String thispassword;
     private Boolean format=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -326,6 +328,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             mEmail = email;
             mPassword = password;
             get = "name="+mEmail+"&mPassword"+mPassword;
+            thispassword = mPassword;
         }
 
         @Override
@@ -358,10 +361,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     try {
                         JSONObject msg = new JSONObject((String) result.get(0));
                         if (msg.getString("msg").equals("成功")) {
-                            Intent intent = new Intent();
-                            intent.setClass(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            if(thispassword.toString().equals("123456")){
+                                Intent intent = new Intent();
+                                intent.setClass(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }else{
+                                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                                mPasswordView.requestFocus();
+                            }
                         }
                         else if(msg.getString("msg").equals("失败")){
                             mPasswordView.setError(getString(R.string.error_incorrect_password));
