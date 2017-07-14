@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -50,6 +51,10 @@ public class MainActivity extends AppCompatActivity
     ArrayList<String> data= new ArrayList<>();
 //    String [] data = {"JavaScript","Struts2框架"};
     ArrayAdapter<String> search_adapter;
+    Button front;
+    Button all;
+    Button after;
+    int tabflag = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,28 +67,37 @@ public class MainActivity extends AppCompatActivity
         bottomNavigationBar.addTab(R.drawable.recommend_white, "推荐课程", R.color.accent);
         bottomNavigationBar.addTab(R.drawable.all_white, "所有课程", R.color.colorPrimary);
         searchView = (SearchView) findViewById(R.id.search);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         title = (TextView)findViewById(R.id.title);
+        all = (Button)findViewById(R.id.all) ;
+        front = (Button)findViewById(R.id.front);
+        after = (Button)findViewById(R.id.after);
         setSupportActionBar(toolbar);
         search_List = (ListView) findViewById(R.id.search_list);
+        recommend = (ListView)findViewById(R.id.recommend) ;
         mPullToRefreshView = (PullToRefreshView) findViewById(R.id.pull_to_refresh);
-        mPullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mPullToRefreshView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mPullToRefreshView.setRefreshing(false);
-                    }
-                },1000);
-            }
-        });
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        recommendAdapter = new RecommendAdapter(this,listdata);
+        recommend.setAdapter(recommendAdapter);
+        //搜索操作
         searchoperate();
         //加载数据
         initDataHS();
+        //加载课程
         initDataLesson();
-        recommend = (ListView)findViewById(R.id.recommend) ;
-        recommendAdapter = new RecommendAdapter(this,listdata);
-        recommend.setAdapter(recommendAdapter);
+        //监听事件
+        linstener();
+
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
+
+    }
+    private void linstener(){
         recommend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -111,38 +125,94 @@ public class MainActivity extends AppCompatActivity
                 transaction.commit();
             }
         });
-
+        mPullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPullToRefreshView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPullToRefreshView.setRefreshing(false);
+                    }
+                },1000);
+            }
+        });
         bottomNavigationBar.setOnTabListener(new BottomNavigationBar.TabListener() {
             @Override
             public void onSelected(int position) {
+                tabflag= position;
                 if(position==0){
                     initDataHS();
+                    all.performClick();
                     recommendAdapter.notifyDataSetChanged();
                 }else if(position==1){
                     initDataRM();
+                    all.performClick();
                     recommendAdapter.notifyDataSetChanged();
                 }else{
                     initDataAL();
+                    all.performClick();
                     recommendAdapter.notifyDataSetChanged();
                 }
             }
         });
+        all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                all.setTextColor(getResources().getColor(R.color.accent));
+                after.setTextColor(getResources().getColor(R.color.divider));
+                front.setTextColor(getResources().getColor(R.color.divider));
+                all.setTextSize(16);
+                after.setTextSize(14);
+                front.setTextSize(14);
+                if(tabflag==2)
+                    initDataAL();
+                else if(tabflag==1){
+                    initDataRM();
+                }else{
+                    initDataHS();
+                }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-//        delete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(MainActivity.this,"点击了删除",Toast.LENGTH_SHORT).show();
-//            }
-//        });
+                recommendAdapter.notifyDataSetChanged();
+            }
+        });
+        after.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                all.setTextColor(getResources().getColor(R.color.divider));
+                after.setTextColor(getResources().getColor(R.color.accent));
+                front.setTextColor(getResources().getColor(R.color.divider));
+                all.setTextSize(14);
+                after.setTextSize(16);
+                front.setTextSize(14);
+                if(tabflag==2)
+                    initDataRM();
+                else if(tabflag==1){
+                    initDataRM();
+                }else{
+                    listdata.clear();
+                }
+                recommendAdapter.notifyDataSetChanged();
+            }
+        });
+        front.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                all.setTextColor(getResources().getColor(R.color.divider));
+                after.setTextColor(getResources().getColor(R.color.divider));
+                front.setTextColor(getResources().getColor(R.color.accent));
+                all.setTextSize(14);
+                after.setTextSize(14);
+                front.setTextSize(16);
+                if(tabflag==2)
+                    initDataHS();
+                else if(tabflag==1){
+                    listdata.clear();
+                }else{
+                    initDataHS();
+                }
+                recommendAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void searchoperate(){
